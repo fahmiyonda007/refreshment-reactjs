@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Navigate } from 'react-router-dom'
 import {
   CAvatar,
   CBadge,
@@ -27,11 +27,9 @@ import AuthService from '../../services/auth.service'
 import avatar8 from './../../assets/images/avatars/8.jpg'
 
 const AppHeaderDropdown = () => {
-  const navigate = useNavigate()
-
   const logOut = () => {
     AuthService.logout().then(() => {
-      navigate('/login')
+      Navigate('/login')
     })
   }
   return (
