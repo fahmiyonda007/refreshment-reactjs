@@ -16,7 +16,10 @@
     "build": "react-scripts build",
     "changelog": "auto-changelog --starting-version 4.4.0 --commit-limit false --hide-credit",
     "eject": "react-scripts eject",
-    "lint": "eslint \"src/**/*.js\"",
+    "format:check": "prettier --check .",
+    "format:write": "prettier --write .",
+    "lint:check": "eslint .",
+    "lint:fix": "eslint --fix .",
     "start": "react-scripts start",
     "test": "react-scripts test",
     "test:cov": "npm test -- --coverage --watchAll=false",
@@ -42,6 +45,8 @@
     "react-redux": "^8.0.2",
     "react-router-dom": "^6.3.0",
     "redux": "4.2.0",
+    "redux-devtools-extension": "^2.13.9",
+    "redux-thunk": "^2.4.2",
     "simplebar-react": "^2.4.1"
   },
   "devDependencies": {

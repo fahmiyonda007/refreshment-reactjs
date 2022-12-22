@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState, createRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -21,6 +21,15 @@ import { logo } from 'src/assets/brand/logo'
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const ref = createRef()
+
+  const [fullname, setName] = useState('')
+  useEffect(() => {
+    if (localStorage.length > 0) {
+      const user = JSON.parse(localStorage.getItem('user')).user.name
+      setName(user)
+    }
+  }, [ref])
 
   return (
     <CHeader position="sticky" className="mb-4">
@@ -62,6 +71,9 @@ const AppHeader = () => {
             <CNavLink href="#">
               <CIcon icon={cilEnvelopeOpen} size="lg" />
             </CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink>{fullname}</CNavLink>
           </CNavItem>
         </CHeaderNav>
         <CHeaderNav className="ms-3">

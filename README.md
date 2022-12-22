@@ -1,25 +1,25 @@
 ### Installation
 
-``` bash
+```bash
 $ npm install
 ```
 
 or
 
-``` bash
+```bash
 $ yarn install
 ```
 
 ### Basic usage
 
-``` bash
+```bash
 # dev server with hot reload at http://localhost:3000
-$ npm start 
+$ npm start
 ```
 
-or 
+or
 
-``` bash
+```bash
 # dev server with hot reload at http://localhost:3000
 $ yarn start
 ```

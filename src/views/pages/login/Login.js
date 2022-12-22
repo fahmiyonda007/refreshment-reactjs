@@ -71,6 +71,13 @@ const Login = () => {
               <CCard className="p-4">
                 <CCardBody>
                   <CForm onSubmit={handleLogin} ref={form}>
+                    {message && (
+                      <div className="form-group">
+                        <div className="alert alert-danger" role="alert">
+                          {message}
+                        </div>
+                      </div>
+                    )}
                     <h1>Login</h1>
                     <p className="text-medium-emphasis">Sign In to your account</p>
                     <CInputGroup className="mb-3">
@@ -110,13 +117,6 @@ const Login = () => {
                           Forgot password?
                         </CButton>
                       </CCol>
-                      {message && (
-                        <div className="form-group">
-                          <div className="alert alert-danger" role="alert">
-                            {message}
-                          </div>
-                        </div>
-                      )}
                     </CRow>
                   </CForm>
                 </CCardBody>

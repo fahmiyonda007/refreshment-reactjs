@@ -1,7 +1,11 @@
-import { createStore } from 'redux'
+import { createStore, applyMiddleware } from 'redux'
+import { composeWithDevTools } from 'redux-devtools-extension'
+import thunk from 'redux-thunk'
+import rootReducer from './reducers'
 
 const initialState = {
   sidebarShow: true,
+  sidebarUnfoldable: false,
 }
 
 const changeState = (state = initialState, { type, ...rest }) => {
@@ -12,6 +16,5 @@ const changeState = (state = initialState, { type, ...rest }) => {
       return state
   }
 }
-
-const store = createStore(changeState)
+const store = createStore(changeState, composeWithDevTools(applyMiddleware(thunk)))
 export default store
