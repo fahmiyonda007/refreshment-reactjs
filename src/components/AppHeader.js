@@ -21,7 +21,6 @@ import { logo } from 'src/assets/brand/logo'
 const AppHeader = () => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
-  const ref = createRef()
 
   const [fullname, setName] = useState('')
   useEffect(() => {
@@ -29,7 +28,7 @@ const AppHeader = () => {
       const user = JSON.parse(localStorage.getItem('user')).user.name
       setName(user)
     }
-  }, [ref])
+  }, [])
 
   return (
     <CHeader position="sticky" className="mb-4">

@@ -16,32 +16,21 @@ import {
 } from '@coreui/react'
 import React, { useRef, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify'
 import AuthService from 'src/services/auth.service'
 
-const UsersForm = (e) => {
+// eslint-disable-next-line react/prop-types
+const UsersForm = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
-  const [toast, addToast] = useState(0)
+  const notify = () => toast('Wow so easy!')
+
   const toaster = useRef()
   const form = useRef()
-  const navigate = useNavigate()
 
-  const toastHandler = (
-    <CToast
-      autohide={true}
-      visible={true}
-      color="success"
-      className="text-white align-items-center"
-      variant="outline"
-    >
-      <div className="d-flex">
-        <CToastBody>Hello, world! This is a toast message.</CToastBody>
-        <CToastClose className="me-2 m-auto" white />
-      </div>
-    </CToast>
-  )
+  const navigate = useNavigate()
 
   const onChangeEmail = (e) => {
     const email = e.target.value
@@ -59,6 +48,7 @@ const UsersForm = (e) => {
 
     AuthService.login(email, password).then(
       (res) => {
+        notify()
         navigate('/users')
       },
       (error) => {
@@ -68,7 +58,6 @@ const UsersForm = (e) => {
           error.toString()
 
         setLoading(false)
-        addToast(toastHandler)
       },
     )
   }
@@ -147,7 +136,7 @@ const UsersForm = (e) => {
                     {loading && <span className="spinner-border spinner-border-sm"> </span>}
                     {!loading ? 'Save' : 'Progress..'}
                   </CButton>
-                  <CToaster ref={toaster} push={toast} placement="top-end" />
+                  {/* <CToaster ref={toaster} push={showToast} placement="top-end" /> */}
                   <CButton type="button" color="danger" variant="ghost" disabled={loading}>
                     Cancel
                   </CButton>
