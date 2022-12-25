@@ -126,24 +126,24 @@ const Users = (e) => {
               data={datas}
               paginationTotalRows={totalData}
               defaultSortFieldId={2}
-              striped
-              pagination
-              selectableRows
-              onSelectedRowsChange={handleChange}
               progressPending={loading}
-              dense
               paginationResetDefaultPage={resetPaginationToggle}
-              noHeader
-              subHeader
               subHeaderComponent={subHeaderComponentMemo}
-              persistTableHead
-              highlightOnHover
-              fixedHeader={true}
               fixedHeaderScrollHeight={'300px'}
-              paginationServer
+              paginationRowsPerPageOptions={[10, 50, 100, 500]}
+              onSelectedRowsChange={handleChange}
               onChangeRowsPerPage={handlePerRowsChange}
               onChangePage={handlePageChange}
-              paginationRowsPerPageOptions={[10, 50, 100, 500]}
+              striped
+              selectableRows
+              dense
+              noHeader
+              subHeader
+              persistTableHead
+              highlightOnHover
+              fixedHeader
+              pagination
+              paginationServer
             />
           </CCardBody>
         </CCard>
