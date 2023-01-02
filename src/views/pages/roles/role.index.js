@@ -8,14 +8,18 @@ import {
   CFormInput,
   CInputGroup,
   CRow,
+  CModal,
+  CModalHeader,
+  CModalTitle,
+  CModalBody,
+  CModalFooter,
 } from '@coreui/react'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import MyService from 'src/services/role.service'
-import columns from './role.columns'
+import RoleService from 'src/services/role.service'
 
 const FilterComponent = ({ filterText, onFilter, onClear }) => (
   <>
@@ -36,13 +40,47 @@ const FilterComponent = ({ filterText, onFilter, onClear }) => (
   </>
 )
 
-const Users = (e) => {
+const Roles = (e) => {
   const [totalData, setTotalData] = useState(0)
   const [loading, setLoading] = useState(true)
   const [datas, setData] = useState([])
   const [perPage, setPerPage] = useState(10)
   const [filterText, setFilterText] = useState('')
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
+  const [deleteData, setDeleteData] = useState({
+    visible: false,
+    roleId: '',
+  })
+
+  const columns = [
+    {
+      name: 'name',
+      selector: (row) => row.name,
+      sortable: true,
+    },
+    {
+      name: 'Action',
+      button: true,
+      width: 'fit-content',
+      cell: (cell) => (
+        <div className="d-grid gap-6 d-md-flex">
+          <Link to={{ pathname: `/roles/form/${cell.id}` }}>
+            <CButton color="warning" size="sm" className="me-md-2" variant="ghost">
+              Edit
+            </CButton>
+          </Link>
+          <CButton
+            color="danger"
+            size="sm"
+            variant="ghost"
+            onClick={() => setDeleteData({ visible: !deleteData.visible, roleId: cell.id })}
+          >
+            Delete
+          </CButton>
+        </div>
+      ),
+    },
+  ]
 
   // initial call
   React.useEffect(() => {
@@ -50,7 +88,7 @@ const Users = (e) => {
   }, [])
 
   const getData = (limit, offset, filter) => {
-    MyService.getRoles(limit, offset, filter).then(
+    RoleService.getRoles(limit, offset, filter).then(
       (res) => {
         setData(res.data)
         setTotalData(res.meta.total)
@@ -105,8 +143,47 @@ const Users = (e) => {
     return <FilterComponent onFilter={_.debounce(handleFilter, 500)} onClear={handleClear} />
   }, [filterText, resetPaginationToggle, perPage])
 
+  const handleDelete = (e, roleId) => {
+    e.preventDefault()
+
+    RoleService.deleteRoles(roleId).then(
+      (res) => {
+        toast('Success', { type: toast.TYPE.INFO, autoClose: 3000 })
+        getData()
+        setDeleteData({ visible: false, roleId: '' })
+      },
+      (error) => {
+        const resMessage =
+          (error.response && error.response.data && error.response.data.message) ||
+          error.message ||
+          error.toString()
+
+        toast(resMessage, { type: toast.TYPE.ERROR, autoClose: 3000 })
+        setDeleteData({ visible: false, roleId: '' })
+      },
+    )
+  }
+
   return (
     <CRow>
+      <CModal
+        visible={deleteData.visible}
+        onClose={() => setDeleteData({ visible: false, roleId: '' })}
+      >
+        <CModalHeader onClose={() => setDeleteData({ visible: false, roleId: '' })}>
+          <CModalTitle>Confirmation</CModalTitle>
+        </CModalHeader>
+        <CModalBody>Are yo sure to delete?</CModalBody>
+        <CModalFooter>
+          <CButton color="secondary" onClick={() => setDeleteData({ visible: false, roleId: '' })}>
+            Close
+          </CButton>
+          <CButton color="danger" onClick={(e) => handleDelete(e, deleteData.roleId)}>
+            Delete
+          </CButton>
+        </CModalFooter>
+      </CModal>
+
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
@@ -152,4 +229,4 @@ const Users = (e) => {
   )
 }
 
-export default Users
+export default Roles

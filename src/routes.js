@@ -16,7 +16,7 @@ const routes = [
   { path: '/users', name: 'Users', element: User, exact: true },
   { path: '/users/form', name: 'Users Form', element: UserForm },
   { path: '/roles', name: 'Roles', element: Role, exact: true },
-  { path: '/roles/form', name: 'Roles Form', element: RoleForm },
+  { path: '/roles/form/:id?', name: 'Roles Form', element: RoleForm },
 ]
 
 export default routes
