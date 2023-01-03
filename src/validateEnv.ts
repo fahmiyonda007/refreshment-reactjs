@@ -4,7 +4,7 @@ const validateEnv = () => {
   cleanEnv(process.env, {
     NODE_ENV: str(),
     PORT: port(),
-    API_BASEURL:str()
+    API_BASEURL: str(),
   })
 }
 

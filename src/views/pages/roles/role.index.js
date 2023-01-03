@@ -14,27 +14,9 @@ import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
+import FilterComponent from 'src/components/filterComponent'
 import MyService from 'src/services/role.service'
 import columns from './role.columns'
-
-const FilterComponent = ({ filterText, onFilter, onClear }) => (
-  <>
-    <CRow>
-      <CCol xs={12}>
-        <CInputGroup className="mb-3">
-          {/* <CInputGroupText id="basic-addon1">@</CInputGroupText> */}
-          <CFormInput
-            type="text"
-            className="form-control form-control-sm"
-            id="search"
-            placeholder="Search"
-            onChange={onFilter}
-          />
-        </CInputGroup>
-      </CCol>
-    </CRow>
-  </>
-)
 
 const Users = (e) => {
   const [totalData, setTotalData] = useState(0)
