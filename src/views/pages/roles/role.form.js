@@ -5,12 +5,9 @@ import {
   CCardHeader,
   CCol,
   CForm,
-  CFormCheck,
   CFormInput,
-  CFormSelect,
   CRow,
 } from '@coreui/react'
-import _ from 'lodash'
 import React, { useRef, useState, useEffect } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { toast } from 'react-toastify'
@@ -22,10 +19,11 @@ const RolesForm = (props) => {
   const params = useParams()
   const [roleName, setRoleName] = useState('')
   const [loading, setLoading] = useState(false)
-  const [isEditMode, setIsEditMode] = useState(params.id === undefined ? false : true)
+  const [isEditMode, setIsEditMode] = useState(false)
 
   // initial call
   useEffect(() => {
+    setIsEditMode(params.id === undefined ? false : true)
     if (isEditMode) {
       getData()
     }
@@ -41,6 +39,7 @@ const RolesForm = (props) => {
           (error.response && error.response.data && error.response.data.message) ||
           error.message ||
           error.toString()
+        toast(resMessage)
         navigate('/roles')
       },
     )
@@ -68,7 +67,7 @@ const RolesForm = (props) => {
             (error.response && error.response.data && error.response.data.message) ||
             error.message ||
             error.toString()
-  
+
           setLoading(false)
           toast(resMessage, { type: toast.TYPE.ERROR, autoClose: 3000 })
         },
@@ -85,13 +84,13 @@ const RolesForm = (props) => {
             (error.response && error.response.data && error.response.data.message) ||
             error.message ||
             error.toString()
-  
+
           setLoading(false)
           toast(resMessage, { type: toast.TYPE.ERROR, autoClose: 3000 })
         },
       )
     }
-    }
+  }
 
   return (
     <CRow>

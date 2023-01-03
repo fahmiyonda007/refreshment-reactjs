@@ -5,8 +5,6 @@ import {
   CCardBody,
   CCardHeader,
   CCol,
-  CFormInput,
-  CInputGroup,
   CRow,
   CModal,
   CModalHeader,
@@ -20,10 +18,7 @@ import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import RoleService from 'src/services/role.service'
-
 import FilterComponent from 'src/components/filterComponent'
-import MyService from 'src/services/role.service'
-import columns from './role.columns'
 
 const Roles = (e) => {
   const [totalData, setTotalData] = useState(0)
