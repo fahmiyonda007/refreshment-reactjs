@@ -1,9 +1,9 @@
 import axios from 'axios'
 import AuthService from './auth.service'
 
-const API_URL = `http://127.0.0.1:3100/api/roles/`
+const API_URL = `http://localhost:3300/api/roles/`
 
-const token = AuthService.getCurrentUser().access_token
+const token = AuthService.getCurrentUser().token
 const config = {
   headers: { Authorization: `Bearer ${token}` },
 }

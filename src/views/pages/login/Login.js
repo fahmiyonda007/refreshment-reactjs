@@ -20,7 +20,7 @@ import AuthService from '../../../services/auth.service'
 const Login = () => {
   const form = useRef()
 
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [message, setMessage] = useState('')
@@ -28,9 +28,9 @@ const Login = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const onChangeEmail = (e) => {
-    const email = e.target.value
-    setEmail(email)
+  const onChangeUsername = (e) => {
+    const username = e.target.value
+    setUsername(username)
   }
 
   const onChangePassword = (e) => {
@@ -45,7 +45,7 @@ const Login = () => {
     setLoading(true)
 
     // if (checkBtn.current.context._errors.length === 0) {
-    AuthService.login(email, password).then(
+    AuthService.login(username, password).then(
       (res) => {
         const origin = location.state?.from?.pathname || '/dashboard'
         navigate(origin)
@@ -85,11 +85,11 @@ const Login = () => {
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
                       <CFormInput
-                        placeholder="email"
-                        autoComplete="email"
+                        placeholder="username"
+                        autoComplete="username"
                         required
-                        value={email}
-                        onChange={onChangeEmail}
+                        value={username}
+                        onChange={onChangeUsername}
                       />
                     </CInputGroup>
                     <CInputGroup className="mb-4">

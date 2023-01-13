@@ -1,5 +1,4 @@
-import React, { useEffect, useState, createRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -25,7 +24,7 @@ const AppHeader = () => {
   const [fullname, setName] = useState('')
   useEffect(() => {
     if (localStorage.length > 0) {
-      const user = JSON.parse(localStorage.getItem('user')).user.name
+      const user = JSON.parse(localStorage.getItem('user')).username
       setName(user)
     }
   }, [])
@@ -42,19 +41,7 @@ const AppHeader = () => {
         <CHeaderBrand className="mx-auto d-md-none" to="/">
           <CIcon icon={logo} height={48} alt="Logo" />
         </CHeaderBrand>
-        <CHeaderNav className="d-none d-md-flex me-auto">
-          <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
-              Dashboard
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Users</CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">Settings</CNavLink>
-          </CNavItem>
-        </CHeaderNav>
+        <CHeaderNav className="d-none d-md-flex me-auto"></CHeaderNav>
         <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">
@@ -71,11 +58,11 @@ const AppHeader = () => {
               <CIcon icon={cilEnvelopeOpen} size="lg" />
             </CNavLink>
           </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav className="ms-3">
           <CNavItem>
             <CNavLink>{fullname}</CNavLink>
           </CNavItem>
-        </CHeaderNav>
-        <CHeaderNav className="ms-3">
           <AppHeaderDropdown />
         </CHeaderNav>
       </CContainer>

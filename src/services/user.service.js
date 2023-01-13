@@ -1,9 +1,9 @@
 import axios from 'axios'
 import AuthService from './auth.service'
 
-const API_URL = 'http://127.0.0.1:3100/api/users/'
+const API_URL = 'http://localhost:3300/api/users/'
 
-const token = AuthService.getCurrentUser().access_token
+const token = AuthService.getCurrentUser().token
 const config = {
   headers: { Authorization: `Bearer ${token}` },
 }
@@ -14,9 +14,9 @@ const getCurrentUser = () => {
   })
 }
 
-const getUsers = (limit = 10, offset = 0, filter = '') => {
+const getUsers = (page = 1, take = 10, filter = '') => {
   return axios
-    .get(API_URL + `list?limit=${limit}&offset=${offset}&filter=${filter}`, config)
+    .get(API_URL + `?page=${page}&take=${take}&filter=${filter}`, config)
     .then((response) => {
       return response.data
     })

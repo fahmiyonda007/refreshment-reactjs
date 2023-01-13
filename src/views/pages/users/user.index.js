@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import FilterComponent from 'src/components/filterComponent'
 import UserService from 'src/services/user.service'
-import columns from './user.columns'
 
 const Users = (e) => {
   const [totalData, setTotalData] = useState(0)
@@ -16,17 +15,61 @@ const Users = (e) => {
   const [perPage, setPerPage] = useState(10)
   const [filterText, setFilterText] = useState('')
   const [resetPaginationToggle, setResetPaginationToggle] = useState(false)
+  const [deleteData, setDeleteData] = useState({
+    visible: false,
+    userId: '',
+  })
+
+  const columns = [
+    {
+      name: 'email',
+      selector: (row) => row.email,
+      sortable: true,
+    },
+    {
+      name: 'username',
+      selector: (row) => row.username,
+      sortable: true,
+    },
+    {
+      name: 'phone',
+      selector: (row) => row.phone,
+      sortable: true,
+    },
+    {
+      name: 'Action',
+      button: true,
+      width: 'fit-content',
+      cell: (cell) => (
+        <div className="d-grid gap-6 d-md-flex">
+          <Link to={{ pathname: `/users/form/${cell.id}` }}>
+            <CButton color="warning" size="sm" className="me-md-2" variant="ghost">
+              Edit
+            </CButton>
+          </Link>
+          <CButton
+            color="danger"
+            size="sm"
+            variant="ghost"
+            onClick={() => setDeleteData({ visible: !deleteData.visible, userId: cell.id })}
+          >
+            Delete
+          </CButton>
+        </div>
+      ),
+    },
+  ]
 
   // initial call
   React.useEffect(() => {
     getUsers()
   }, [])
 
-  const getUsers = (limit, offset, filter) => {
-    UserService.getUsers(limit, offset, filter).then(
+  const getUsers = (page, take, filter) => {
+    UserService.getUsers(page, take, filter).then(
       (res) => {
         setData(res.data)
-        setTotalData(res.meta.total)
+        setTotalData(res.meta.itemCount)
         setLoading(false)
       },
       (error) => {
@@ -42,16 +85,14 @@ const Users = (e) => {
 
   const handlePageChange = (page) => {
     setLoading(true)
-    const limit = perPage
-    const offset = page * limit - limit
-    getUsers(limit, offset, filterText)
+    const take = perPage
+    getUsers(page, take, filterText)
   }
 
   const handlePerRowsChange = async (newPerPage, page) => {
     setLoading(true)
-    const limit = newPerPage
-    const offset = page * limit - limit
-    getUsers(limit, offset, filterText)
+    const take = newPerPage
+    getUsers(page, take, filterText)
     setPerPage(newPerPage)
   }
 
@@ -69,9 +110,8 @@ const Users = (e) => {
     }
 
     const handleFilter = (e) => {
-      const limit = perPage
-      const offset = 1 * limit - limit
-      getUsers(limit, offset, e.target.value)
+      const take = perPage
+      getUsers(1, take, e.target.value)
       setFilterText(e.target.value)
     }
 

@@ -19,6 +19,7 @@ import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import RoleService from 'src/services/role.service'
 import FilterComponent from 'src/components/filterComponent'
+import ModalComponent from 'src/components/modalComponent'
 
 const Roles = (e) => {
   const [totalData, setTotalData] = useState(0)
@@ -120,50 +121,32 @@ const Roles = (e) => {
       setFilterText(e.target.value)
     }
 
+    const handleDelete = (e, roleId) => {
+      e.preventDefault()
+
+      RoleService.deleteRoles(roleId).then(
+        (res) => {
+          toast('Success', { type: toast.TYPE.INFO, autoClose: 3000 })
+          getData()
+          setDeleteData({ visible: false, roleId: '' })
+        },
+        (error) => {
+          const resMessage =
+            (error.response && error.response.data && error.response.data.message) ||
+            error.message ||
+            error.toString()
+
+          toast(resMessage, { type: toast.TYPE.ERROR, autoClose: 3000 })
+          setDeleteData({ visible: false, roleId: '' })
+        },
+      )
+    }
+
     return <FilterComponent onFilter={_.debounce(handleFilter, 500)} onClear={handleClear} />
   }, [filterText, resetPaginationToggle, perPage])
 
-  const handleDelete = (e, roleId) => {
-    e.preventDefault()
-
-    RoleService.deleteRoles(roleId).then(
-      (res) => {
-        toast('Success', { type: toast.TYPE.INFO, autoClose: 3000 })
-        getData()
-        setDeleteData({ visible: false, roleId: '' })
-      },
-      (error) => {
-        const resMessage =
-          (error.response && error.response.data && error.response.data.message) ||
-          error.message ||
-          error.toString()
-
-        toast(resMessage, { type: toast.TYPE.ERROR, autoClose: 3000 })
-        setDeleteData({ visible: false, roleId: '' })
-      },
-    )
-  }
-
   return (
     <CRow>
-      <CModal
-        visible={deleteData.visible}
-        onClose={() => setDeleteData({ visible: false, roleId: '' })}
-      >
-        <CModalHeader onClose={() => setDeleteData({ visible: false, roleId: '' })}>
-          <CModalTitle>Confirmation</CModalTitle>
-        </CModalHeader>
-        <CModalBody>Are yo sure to delete?</CModalBody>
-        <CModalFooter>
-          <CButton color="secondary" onClick={() => setDeleteData({ visible: false, roleId: '' })}>
-            Close
-          </CButton>
-          <CButton color="danger" onClick={(e) => handleDelete(e, deleteData.roleId)}>
-            Delete
-          </CButton>
-        </CModalFooter>
-      </CModal>
-
       <CCol xs={12}>
         <CCard className="mb-4">
           <CCardHeader>
