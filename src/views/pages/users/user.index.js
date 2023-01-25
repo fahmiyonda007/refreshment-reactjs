@@ -6,6 +6,7 @@ import DataTable from 'react-data-table-component'
 import { Link } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import FilterComponent from 'src/components/filterComponent'
+import ModalComponent from 'src/components/modalComponent'
 import UserService from 'src/services/user.service'
 
 const Users = (e) => {
@@ -116,52 +117,55 @@ const Users = (e) => {
     }
 
     return <FilterComponent onFilter={_.debounce(handleFilter, 500)} onClear={handleClear} />
-  }, [filterText, resetPaginationToggle, perPage])
+  }, [filterText, perPage, resetPaginationToggle])
 
   return (
-    <CRow>
-      <CCol xs={12}>
-        <CCard className="mb-4">
-          <CCardHeader>
-            <div className="d-grid gap-2 d-md-flex justify-content-md-start">
-              <Link to="/users/form">
-                <CButton color="info" variant="outline">
-                  {'ADD'}
-                </CButton>
-              </Link>
-            </div>
-          </CCardHeader>
-          <CCardBody>
-            <p className="text-medium-emphasis small"></p>
-            <DataTable
-              title="Users List"
-              columns={columns}
-              data={datas}
-              paginationTotalRows={totalData}
-              defaultSortFieldId={2}
-              progressPending={loading}
-              paginationResetDefaultPage={resetPaginationToggle}
-              subHeaderComponent={subHeaderComponentMemo}
-              fixedHeaderScrollHeight={'300px'}
-              paginationRowsPerPageOptions={[10, 50, 100, 500]}
-              onSelectedRowsChange={handleChange}
-              onChangeRowsPerPage={handlePerRowsChange}
-              onChangePage={handlePageChange}
-              striped
-              selectableRows
-              dense
-              noHeader
-              subHeader
-              persistTableHead
-              highlightOnHover
-              fixedHeader
-              pagination
-              paginationServer
-            />
-          </CCardBody>
-        </CCard>
-      </CCol>
-    </CRow>
+    <>
+      <ModalComponent visible={deleteData.visible} />
+      <CRow>
+        <CCol xs={12}>
+          <CCard className="mb-4">
+            <CCardHeader>
+              <div className="d-grid gap-2 d-md-flex justify-content-md-start">
+                <Link to="/users/form">
+                  <CButton color="info" variant="outline">
+                    {'ADD'}
+                  </CButton>
+                </Link>
+              </div>
+            </CCardHeader>
+            <CCardBody>
+              <p className="text-medium-emphasis small"></p>
+              <DataTable
+                title="Users List"
+                columns={columns}
+                data={datas}
+                paginationTotalRows={totalData}
+                defaultSortFieldId={2}
+                progressPending={loading}
+                paginationResetDefaultPage={resetPaginationToggle}
+                subHeaderComponent={subHeaderComponentMemo}
+                fixedHeaderScrollHeight={'300px'}
+                paginationRowsPerPageOptions={[10, 50, 100, 500]}
+                onSelectedRowsChange={handleChange}
+                onChangeRowsPerPage={handlePerRowsChange}
+                onChangePage={handlePageChange}
+                striped
+                selectableRows
+                dense
+                noHeader
+                subHeader
+                persistTableHead
+                highlightOnHover
+                fixedHeader
+                pagination
+                paginationServer
+              />
+            </CCardBody>
+          </CCard>
+        </CCol>
+      </CRow>
+    </>
   )
 }
 

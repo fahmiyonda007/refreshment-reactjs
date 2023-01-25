@@ -25,7 +25,7 @@ const ModalComponent = (props) => {
 }
 
 ModalComponent.propTypes = {
-  visible: PropTypes.string,
+  visible: PropTypes.bool,
   onClose: PropTypes.string,
   onClick: PropTypes.string,
 }

@@ -1,17 +1,5 @@
 /* eslint-disable react/prop-types */
-import {
-  CButton,
-  CCard,
-  CCardBody,
-  CCardHeader,
-  CCol,
-  CRow,
-  CModal,
-  CModalHeader,
-  CModalTitle,
-  CModalBody,
-  CModalFooter,
-} from '@coreui/react'
+import { CButton, CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import _ from 'lodash'
 import React, { useState } from 'react'
 import DataTable from 'react-data-table-component'

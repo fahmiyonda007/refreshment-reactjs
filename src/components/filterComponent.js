@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 
 const FilterComponent = (props) => {
-  const { filterText, onFilter, onClear } = props
+  const { onFilter } = props
 
   return (
     <>
@@ -26,9 +26,7 @@ const FilterComponent = (props) => {
 }
 
 FilterComponent.propTypes = {
-  filterText: PropTypes.string,
-  onFilter: PropTypes.string,
-  onClear: PropTypes.string,
+  onFilter: PropTypes.func,
 }
 
 export default FilterComponent

@@ -4,21 +4,10 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import { ToastContainer } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import AuthService from '../services/auth.service'
-
-// routes config
 import routes from '../routes'
 
-const useAuth = () => {
-  const user = AuthService.getCurrentUser()
-  if (user) {
-    return true
-  } else {
-    return false
-  }
-}
-
 const AppContent = () => {
-  const auth = useAuth()
+  const auth = AuthService.useAuth()
 
   return auth ? (
     <CContainer lg>

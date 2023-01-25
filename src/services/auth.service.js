@@ -1,4 +1,5 @@
 import axios from 'axios'
+import jwtDecode from 'jwt-decode'
 
 const API_URL = 'http://localhost:3300/api/auth/'
 
@@ -17,8 +18,10 @@ const login = (username, password) => {
       password,
     })
     .then((response) => {
-      if (response.data.token) {
-        localStorage.setItem('user', JSON.stringify(response.data))
+      const data = response.data
+      if (data.token) {
+        const res = [{ email: data.email, username: data.username, token: data.token }]
+        localStorage.setItem('user', JSON.stringify(res[0]))
       }
 
       return response.data
@@ -36,11 +39,26 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem('user'))
 }
 
+const useAuth = () => {
+  const user = getCurrentUser()
+  if (user) {
+    const decodedJwt = jwtDecode(user.token)
+    if (decodedJwt.exp * 1000 < Date.now()) {
+      localStorage.removeItem('user')
+      return false
+    }
+    return true
+  } else {
+    return false
+  }
+}
+
 const AuthService = {
   register,
   login,
   logout,
   getCurrentUser,
+  useAuth,
 }
 
 export default AuthService
